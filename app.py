@@ -2,6 +2,52 @@ import os
 from flask import Flask, render_template, g
 import sys
 import logging
+import sqlite3
+from sqlite3 import Error
+
+
+
+import zenv
+
+
+database = zenv.DB_LOCATION
+
+
+def create_connection(db_file):
+    """ create a database connection to the SQLite database
+        specified by the db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    try:
+        conn = sqlite3.connect(db_file)
+        return conn
+    except Error as e:
+        print(e)
+ 
+    return None
+
+
+def select_all(conn):
+    """
+    Query all rows in the MOVIE table
+    :param conn: the Connection object
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM ACTOR_SCORE")
+ 
+    rows = cur.fetchall()
+    return rows
+    
+    # print('rows count : '+str(len(rows)))
+    
+   #if(len(rows) <= 0):
+    #    print('No Data available')
+ 
+    #for row in rows:
+     #   print(row)         
+
 
 
 app = Flask(__name__)
@@ -13,11 +59,8 @@ app.logger.setLevel(logging.ERROR)
 
 @app.route('/')
 def index():
-    
-    countries = [
-        ["India", "Asia"],
-        ["Canada", "North America"]
-    ]
-
-    return render_template('index.html', countries=countries)
+     conn = create_connection(database)
+     with conn:
+        rows = select_all(conn)
+     return render_template('index.html', rows=rows)
 

@@ -38,6 +38,7 @@ def select_all(conn):
     cur.execute("SELECT * FROM ACTOR_SCORE")
  
     rows = cur.fetchall()
+    print(rows)
     return rows
     
     # print('rows count : '+str(len(rows)))

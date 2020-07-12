@@ -1,11 +1,12 @@
 ## Actor Score
 
-**Rnagers**
+**Rangers**
 
 Team members
 
 
 - Alvis F 
 - Sameena Fathima M
+- Palaniappan S
 - Karthik V
 
